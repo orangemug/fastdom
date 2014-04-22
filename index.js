@@ -1,3 +1,4 @@
+
 /**
  * FastDom
  *
@@ -8,27 +9,31 @@
  * @author Wilson Page <wilsonpage@me.com>
  */
 
-;(function(fastdom){
+;(function(){
 
   'use strict';
 
+  // Allow fastdom to run within nodejs (for testing)
+  var _global = typeof(window) === 'undefined' ? global : window;
+  var fastdom = _global.fastdom;
+
   // Normalize rAF
-  var raf = window.requestAnimationFrame
-    || window.webkitRequestAnimationFrame
-    || window.mozRequestAnimationFrame
-    || window.msRequestAnimationFrame
-    || function(cb) { return window.setTimeout(cb, 1000 / 60); };
+  var raf = _global.requestAnimationFrame
+    || _global.webkitRequestAnimationFrame
+    || _global.mozRequestAnimationFrame
+    || _global.msRequestAnimationFrame
+    || function(cb) { return _global.setTimeout(cb, 1000 / 60); };
 
   // Normalize cAF
-  var caf = window.cancelAnimationFrame
-    || window.cancelRequestAnimationFrame
-    || window.mozCancelAnimationFrame
-    || window.mozCancelRequestAnimationFrame
-    || window.webkitCancelAnimationFrame
-    || window.webkitCancelRequestAnimationFrame
-    || window.msCancelAnimationFrame
-    || window.msCancelRequestAnimationFrame
-    || function(id) { window.clearTimeout(id); };
+  var caf = _global.cancelAnimationFrame
+    || _global.cancelRequestAnimationFrame
+    || _global.mozCancelAnimationFrame
+    || _global.mozCancelRequestAnimationFrame
+    || _global.webkitCancelAnimationFrame
+    || _global.webkitCancelRequestAnimationFrame
+    || _global.msCancelAnimationFrame
+    || _global.msCancelRequestAnimationFrame
+    || function(id) { _global.clearTimeout(id); };
 
   /**
    * Creates a fresh
@@ -417,7 +422,7 @@
   } else if (typeof define === 'function' && define.amd) {
     define(function(){ return fastdom; });
   } else {
-    window['fastdom'] = fastdom;
+    _global['fastdom'] = fastdom;
   }
 
-})(window.fastdom);
+})();
